@@ -18,10 +18,6 @@ pipeline {
 
                 docker run -d --name backend1 --network app-network backend-app
                 docker run -d --name backend2 --network app-network backend-app
-
-                docker run -d --name nginx-lb --network app-network -p 80:80 nginx
-                docker cp nginx/default.conf nginx-lb:/etc/nginx/conf.d/default.conf
-                docker exec nginx-lb nginx -s reload
                 '''
             }
         }
