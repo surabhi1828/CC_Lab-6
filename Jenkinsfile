@@ -12,11 +12,16 @@ pipeline {
         stage('Deploy Backend Containers') {
             steps {
                 sh '''
+                # Remove containers first
+                docker rm -f backend1 backend2 nginx-lb || true
+
+                # Now remove network safely
                 docker network rm app-network || true
+
+                # Recreate clean network
                 docker network create app-network
 
-                docker rm -f backend1 backend2 || true
-
+                # Start backend containers
                 docker run -d --name backend1 --network app-network backend-app
                 docker run -d --name backend2 --network app-network backend-app
                 '''
