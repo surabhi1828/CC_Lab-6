@@ -12,10 +12,8 @@ pipeline {
         stage('Deploy Backend Containers') {
             steps {
                 sh '''
-                docker rm -f nginx-lb backend1 backend2 || true
-                docker network rm app-network || true
-                docker network create app-network
-
+                docker network create app-network || true
+                docker rm -f backend1 backend2 || true
                 docker run -d --name backend1 --network app-network backend-app
                 docker run -d --name backend2 --network app-network backend-app
                 '''
